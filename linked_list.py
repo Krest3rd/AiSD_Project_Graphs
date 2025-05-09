@@ -6,7 +6,7 @@ class Linked_List:
 
     def __init__(self):
         self.head = None
-        
+
     def InsertAtEnd(self, data):
         new_node = self.Node(data)
         if not self.head:
@@ -55,11 +55,14 @@ class Linked_List:
     
     # Display the linked list
     def display(self):
+        if not self.head:
+            return
         current_node = self.head
-        while current_node:
-            print(current_node.data, end=" -> ")
+        while current_node.next:
+            print(current_node.data, end="->")
             current_node = current_node.next
-        print("None")
+        print(current_node.data)
+        # print(current_node.data)
 
 
         

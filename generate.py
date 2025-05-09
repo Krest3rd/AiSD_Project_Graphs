@@ -1,5 +1,9 @@
 from random import randint
+from linked_list import Linked_List
 
+# This function generates a random adjacency matrix of size n x n with a given saturation percentage.
+# The saturation percentage determines how many of the possible edges in the upper triangle of the matrix are filled with 1s.
+# The matrix is symmetric, with 1 indicating a directed edge from node i to node j, and -1 indicating a directed edge from node j to node i.
 def generate_adj_matrix(n: int, saturation: int) -> list[list[int]]:
     # Check if saturation is in correct range
     if saturation > 100 or saturation < 0:
@@ -30,14 +34,10 @@ def generate_adj_matrix(n: int, saturation: int) -> list[list[int]]:
     return matrix
 
 
-# for row in generate_adj_matrix(5,100):
-#     print(row)
-
-def matrix_to_edge_table(matrix: list[list]) -> list[tuple[int,int]]:
+def check_matrix(matrix: list[list]) -> bool:
     # Check if matrix is list of lists
     if not all(isinstance(row, list) for row in matrix):
         raise ValueError("Only 2D list of list of int is accepted")
-    print('OK')
 
     # Check if each value is 1, 0, or -1
     for row in matrix:
@@ -48,6 +48,24 @@ def matrix_to_edge_table(matrix: list[list]) -> list[tuple[int,int]]:
     n = len(matrix)
     if not all(len(row)==n for row in matrix):
         raise ValueError("Input matrix has to be an NxN matrix")
+    
+    # Check if the matrix is symmetric
+    for i in range(n):
+        for j in range(n):
+            if matrix[i][j] != -matrix[j][i]:
+                raise ValueError("Matrix is not symmetric")
+    
+    return True
+
+
+
+# This function converts a adjecency matrix into an edge table.
+# The edge table is a list of tuples, where each tuple (i,j) represents a directed edge from node i to node j.
+def matrix_to_edge_table(matrix: list[list]) -> list[tuple[int,int]]:
+    # Check if the matrix is valid
+    check_matrix(matrix)
+
+    n = len(matrix)
 
     # Fill the table
     table = []
@@ -59,15 +77,43 @@ def matrix_to_edge_table(matrix: list[list]) -> list[tuple[int,int]]:
                 table.append((col,row))
     return table
 
-
+# This function generates an edge table from a random adjacency matrix of size n x n with a given saturation percentage.
 def generate_edge_table(n: int, saturation: int) -> list[tuple[int,int]]:
     matrix = generate_adj_matrix(n, saturation)
     table = matrix_to_edge_table(matrix)
     return table
 
-# for i in generate_edge_table(5,100):
-#     print(i)
+def matrix_to_linked_list(matrix: list[list]) -> list[Linked_List]:
+    check_matrix(matrix)
 
-# def generate_list(n: int, saturation: int) -> dict:
-#     matrix = generate_matrix(n, saturation)
+    n = len(matrix)
+    list = []
+    for i in range(n):
+        # print(matrix[i])
+        linked_list = Linked_List()
+        linked_list.InsertAtEnd(i)
+        for j in range(n):
+            if matrix[i][j] == 1:
+                linked_list.InsertAtEnd(j)
+
+        # linked_list.display()
+        list.append(linked_list)
+    return list
+
+def generate_succesor_lists(n: int, saturation: int) -> list[Linked_List]:
+    matrix = generate_adj_matrix(n, saturation)
+    return matrix_to_linked_list(matrix)
+
+
+# Example usage
+if __name__ == "__main__":
+    n = 5
+    saturation = 50
+    matrix = generate_adj_matrix(n, saturation)
+    print(matrix)
+    table = matrix_to_edge_table(matrix)
+    print(table)
+    linked_list = matrix_to_linked_list(matrix)
+    for i in range(len(linked_list)):
+        linked_list[i].display()
 
