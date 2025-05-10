@@ -5,21 +5,21 @@ def check_matrix(matrix: list[list]) -> bool:
     if not all(isinstance(row, list) for row in matrix):
         raise ValueError("Only 2D list of list of int is accepted")
 
-    # Check if each value is 1, 0, or -1
+    # Check if each value is 1 and 0
     for row in matrix:
-        if not all(i in {1,0,-1} and type(i) is int for i in row):
-            raise ValueError("Allowed values are integers 1,0 and -1")
+        if not all(i in {1,0} and type(i) is int for i in row):
+            raise ValueError("Allowed values are integers 1 and 0")
     
     # Checks if the matrix is an NxN matrix
     n = len(matrix)
     if not all(len(row)==n for row in matrix):
         raise ValueError("Input matrix has to be an NxN matrix")
     
-    # Check if the matrix is symmetric
-    for i in range(n):
-        for j in range(n):
-            if matrix[i][j] != -matrix[j][i] and i!=j:
-                raise ValueError("Matrix is not symmetric")
+    # # Check if the matrix is symmetric
+    # for i in range(n):
+    #     for j in range(n):
+    #         if matrix[i][j] != -matrix[j][i] and i!=j:
+    #             raise ValueError("Matrix is not symmetric")
             
     # Check if the diagonal is 0 (no self loops)
     for i in range(n):

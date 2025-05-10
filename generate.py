@@ -4,7 +4,7 @@ from checks import check_matrix # type: ignore
 
 # This function generates a random adjacency matrix of size n x n with a given saturation percentage.
 # The saturation percentage determines how many of the possible edges in the upper triangle of the matrix are filled with 1s.
-# The matrix is symmetric, with 1 indicating a directed edge from node i to node j, and -1 indicating a directed edge from node j to node i.
+# The matrix is symmetric, with 1 indicating a directed edge from node i to node j.
 # The upper triangle of the matrix is the only part that is filled with ones to avoid cycles.
 def generate_adj_matrix(n: int, saturation: int) -> list[list[int]]:
     # Check if saturation is in correct range
@@ -30,7 +30,6 @@ def generate_adj_matrix(n: int, saturation: int) -> list[list[int]]:
         if matrix[i][j] == 0:
             # print(j,i)
             matrix[i][j] = 1
-            matrix[j][i] = -1
             count -=1
     print('Matrix Created')
     return matrix
@@ -50,8 +49,6 @@ def matrix_to_edge_table(matrix: list[list]) -> list[tuple[int,int]]:
         for col in range(row,n):
             if matrix[row][col] == 1:
                 table.append((row+1,col+1))
-            elif matrix[row][col] == -1:
-                table.append((col+1,row+1))
     return table
 
 
