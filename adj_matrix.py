@@ -88,7 +88,9 @@ def matrix_DepthFirstSearch(matrix: list[list[int]], start:int) -> list[int]:
 # This function implements Kahn's algorithm for topological sorting of a directed acyclic graph (DAG).
 # It returns a list of nodes in topologically sorted order.
 # The function first checks if the input matrix is valid and then calculates the in-degrees of each node.
-def matrix_Kahn(matrix: list[list[int]]) -> list[int]:    
+# It uses a queue to process nodes with no incoming edges and updates the in-degrees of their successors.
+# If the graph has cycles, it raises a ValueError.
+def matrix_Kahn_topological_sort(matrix: list[list[int]]) -> list[int]:    
     check_matrix(matrix)
 
     n = len(matrix)
@@ -125,20 +127,70 @@ def matrix_Kahn(matrix: list[list[int]]) -> list[int]:
     return result
 
 
+# This function implements Tarjan's algorithm for topological sorting of a directed acyclic graph (DAG).
+# It uses a depth-first search approach to find the topological order.
+# The function returns a list of nodes in topologically sorted order.
+# It raises a ValueError if the graph has cycles.
+# The function uses a stack to keep track of the current path and a visited list to mark nodes as visited.
+# It also maintains a result list to store the topological order.
+# The function continues until all nodes are visited, and it handles cycles by checking the visited status of nodes.
+def matrix_Trajan_topological_sort(matrix: list[list[int]]) -> list[int]:
+    check_matrix(matrix)
+
+    # 0 = unvisited, 1 = visiting, 2 = visited
+    visited = [0] * len(matrix)
+    result = []
+    stack = []
+
+    # Keep going until all nodes are visited
+    while not all(i == 2 for i in visited):
+        # Find the first unvisited node
+        # and mark it as visiting
+        for i,j in enumerate(visited):
+            if j == 0:
+                stack.append(i)
+                visited[i] = 1
+                break
+        
+        # Push 
+        while stack:
+            for i,j in enumerate(matrix[stack[-1]]):
+                if j == 1:
+                    if visited[i] == 1:
+                        raise ValueError("Graph has cycles, topological sort not possible.")
+                    if visited[i] == 0:
+                        stack.append(i)
+                        visited[i] = 1
+                        break
+            else:
+                current = stack.pop()
+                visited[current] = 2
+                result.insert(0,current+1)
+    return result
+
+
 # Example usage:
-if __name__ == "__main__":
+if __name__ == "__main__" or True:
 
     matrix = [[0, 1, 0, 0, 0],
-             [0, 0, 1, 0, 0],
              [0, 0, 0, 0, 0],
+             [1, 0, 0, 1, 0],
              [0, 0, 0, 0, 0],
-             [1, 0, 0, 0, 0]]
+             [1, 0, 0, 1, 0]]
 
-
+    print("Adjacency Matrix:")
     print_matrix(matrix)
+    print("Edge exists (1, 2):", edge_exists(matrix, 1, 2))
+    print("Edge exists (1, 3):", edge_exists(matrix, 1, 3))
+    print("Edge exists (2, 1):", edge_exists(matrix, 2, 1))
+    print("Breath First Search from node 5:")
     print(matrix_BreathFirstSearch(matrix, 5))
+    print("Depth First Search from node 5:")
     print(matrix_DepthFirstSearch(matrix, 5))
-    print(matrix_Kahn(matrix))
+    print("Topological Sort using Kahn's algorithm:")
+    print(matrix_Kahn_topological_sort(matrix))
+    print("Topological Sort using Tarjan's algorithm:")
+    print(matrix_Trajan_topological_sort(matrix))
     
 
 
