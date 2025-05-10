@@ -62,7 +62,14 @@ class Linked_List:
             print(current_node.data, end="->")
             current_node = current_node.next
         print(current_node.data)
-        # print(current_node.data)
+
+    def __len__(self):
+        current_node = self.head
+        count = 0
+        while current_node:
+            count += 1
+            current_node = current_node.next
+        return count
 
 
         
