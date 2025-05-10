@@ -1,5 +1,6 @@
 from random import randint
 from linked_list import Linked_List
+from checks import check_matrix # type: ignore
 
 # This function generates a random adjacency matrix of size n x n with a given saturation percentage.
 # The saturation percentage determines how many of the possible edges in the upper triangle of the matrix are filled with 1s.
@@ -33,31 +34,6 @@ def generate_adj_matrix(n: int, saturation: int) -> list[list[int]]:
             count -=1
     print('Matrix Created')
     return matrix
-
-
-def check_matrix(matrix: list[list]) -> bool:
-    # Check if matrix is list of lists
-    if not all(isinstance(row, list) for row in matrix):
-        raise ValueError("Only 2D list of list of int is accepted")
-
-    # Check if each value is 1, 0, or -1
-    for row in matrix:
-        if not all(i in {1,0,-1} and type(i) is int for i in row):
-            raise ValueError("Allowed values are integers 1,0 and -1")
-    
-    # Checks if the matrix is an NxN matrix
-    n = len(matrix)
-    if not all(len(row)==n for row in matrix):
-        raise ValueError("Input matrix has to be an NxN matrix")
-    
-    # Check if the matrix is symmetric
-    for i in range(n):
-        for j in range(n):
-            if matrix[i][j] != -matrix[j][i]:
-                raise ValueError("Matrix is not symmetric")
-    
-    return True
-
 
 
 # This function converts a adjecency matrix into an edge table.
