@@ -1,6 +1,7 @@
 from linked_list import Linked_List
 from checks import check_matrix # type: ignore
 
+# Prints the adjacency matrix in a readable format.
 def print_matrix(matrix: list[list[int]]) -> None:
     check_matrix(matrix)
     
@@ -23,6 +24,7 @@ def print_matrix(matrix: list[list[int]]) -> None:
             print(f"{matrix[row][col]:2}", end=' ')
         print()
 
+
 # Checks if edge (start, end) exists in the adjacency matrix
 # Returns True if it exists, False otherwise
 def edge_exists(matrix: list[list[int]], start: int, end: int) -> bool:
@@ -35,7 +37,108 @@ def edge_exists(matrix: list[list[int]], start: int, end: int) -> bool:
         return True
     else:
         return False
+
+
+# This function implements a breadth-first search (BFS) algorithm on an adjacency matrix.
+# It starts from a given node and explores all its neighbors before moving to the next level.
+# The function returns a list of nodes visited in the order they were encountered.
+def matrix_BreathFirstSearch(matrix: list[list[int]], start:int) -> list[int]:
+    check_matrix(matrix)
+
+    result = [start]
+    visited = [False] * len(matrix)
+    visited[start-1] = True
+    current = 0
+
+
+    while current < len(result):
+        row = result[current]-1
+        for i,j in enumerate(matrix[row]):
+            if j == 1 and not visited[i]:
+                result.append(i+1)
+                visited[i] = True
+        current += 1
+    return result
+
+
+# This function implements a depth-first search (DFS) algorithm on an adjacency matrix.
+# It starts from a given node and explores as far as possible along each branch before backtracking.
+# The function returns a list of nodes visited in the order they were encountered.
+def matrix_DepthFirstSearch(matrix: list[list[int]], start:int) -> list[int]:
+    check_matrix(matrix)
+
+    stack = [start]
+    visited = [False] * len(matrix)
+    visited[start-1] = True
+    result = [start]
+
+    while stack:
+        for i,j in enumerate(matrix[stack[-1]-1]):
+            if j == 1 and not visited[i]:
+                stack.append(i+1)
+                visited[i] = True
+                result.append(i+1)
+                break
+        else:
+            stack.pop()
+
+    return result
+        
+
+# This function implements Kahn's algorithm for topological sorting of a directed acyclic graph (DAG).
+# It returns a list of nodes in topologically sorted order.
+# The function first checks if the input matrix is valid and then calculates the in-degrees of each node.
+def matrix_Kahn(matrix: list[list[int]]) -> list[int]:    
+    check_matrix(matrix)
+
+    n = len(matrix)
+    # Calculate how many incoming edges each node has
+    degrees = [0] * len(matrix)
+    for i in range(len(matrix)):
+        for j in range(len(matrix)):
+            if matrix[i][j] == 1:
+                degrees[j] += 1
+
+    # Create a queue of nodes with no incoming edges
+    print(degrees)
+    queue = []
+    for i in range(len(degrees)):
+        if degrees[i] == 0:
+            queue.append(i+1)
     
+    result = []
+    while queue:
+        # Get the first node in the queue
+        node = queue.pop(0)
+        result.append(node)
+
+        # Decrease the incoming edge count for all its successors
+        for i in range(len(matrix)):
+            if matrix[node-1][i] == 1:
+                degrees[i] -= 1
+                if degrees[i] == 0:
+                    queue.append(i+1)
+    
+    if len(result) != len(matrix):
+        raise ValueError("Graph has cycles, topological sort not possible.")
+    
+    return result
+
+
+# Example usage:
+if __name__ == "__main__":
+
+    matrix = [[0, 1, 0, 0, 0],
+             [0, 0, 1, 0, 0],
+             [0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0],
+             [1, 0, 0, 0, 0]]
+
+
+    print_matrix(matrix)
+    print(matrix_BreathFirstSearch(matrix, 5))
+    print(matrix_DepthFirstSearch(matrix, 5))
+    print(matrix_Kahn(matrix))
     
 
 
