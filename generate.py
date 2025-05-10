@@ -73,23 +73,17 @@ def matrix_to_edge_table(matrix: list[list]) -> list[tuple[int,int]]:
     for row in range(n):
         for col in range(row,n):
             if matrix[row][col] == 1:
-                table.append((row,col))
+                table.append((row+1,col+1))
             elif matrix[row][col] == -1:
-                table.append((col,row))
+                table.append((col+1,row+1))
     return table
-
-# This function generates an edge table from a random adjacency matrix of size n x n with a given saturation percentage.
-# def generate_edge_table(n: int, saturation: int) -> list[tuple[int,int]]:
-#     matrix = generate_adj_matrix(n, saturation)
-#     table = matrix_to_edge_table(matrix)
-#     return table
 
 
 # This function converts an adjacency matrix into a list of succesor lists.
 # Each linked list represents the successors of a node, with the first element being the node itself.
 # For readability value of the node is increased by 1.
 # If a node has no successors, a 0 is added to the list.
-def matrix_to_succesor_list(matrix: list[list]) -> list[Linked_List]:
+def matrix_to_succesor_lists(matrix: list[list]) -> list[Linked_List]:
     check_matrix(matrix)
 
     n = len(matrix)
@@ -107,9 +101,6 @@ def matrix_to_succesor_list(matrix: list[list]) -> list[Linked_List]:
         list.append(linked_list)
     return list
 
-# def generate_succesor_lists(n: int, saturation: int) -> list[Linked_List]:
-#     matrix = generate_adj_matrix(n, saturation)
-#     return matrix_to_linked_list(matrix)
 
 # Example usage
 if __name__ == "__main__":
@@ -121,7 +112,7 @@ if __name__ == "__main__":
     table = matrix_to_edge_table(matrix)
     for i in table:
         print(i)
-    succesor_lists = matrix_to_succesor_list(matrix)
+    succesor_lists = matrix_to_succesor_lists(matrix)
     for i in succesor_lists:
         i.display()
 
