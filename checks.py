@@ -28,6 +28,7 @@ def check_matrix(matrix: list[list]) -> bool:
     
     return True
 
+
 def check_successor_lists(succesor_lists: list[Linked_List]) -> bool:
     # Check if successor lists contains linked lists
     if not all(isinstance(i, Linked_List) for i in succesor_lists):
@@ -48,3 +49,17 @@ def check_successor_lists(succesor_lists: list[Linked_List]) -> bool:
             if current.data < 0 or current.data > len(succesor_lists):
                 raise ValueError("Successor list contains invalid node.")
             current = current.next
+
+
+def check_edge_table(edge_table: list[tuple[int,int]]) -> bool:
+    if not all(isinstance(i, tuple) and len(i)==2 for i in edge_table):
+        raise TypeError("Only list of tuples is accepted.")
+    
+    if not all(len(i)==2 for i in edge_table):
+        raise ValueError("Only tuples of length 2 are accepted.")
+    
+    if not all(isinstance(i[0], int) and isinstance(i[1], int) for i in edge_table):
+        raise TypeError("Only list of tuples of integers is accepted.")
+    
+    if not all(i[0] > 0 and i[1] > 0 for i in edge_table):
+        raise ValueError("Only positive integers are accepted.")
