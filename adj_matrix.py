@@ -1,4 +1,3 @@
-from linked_list import Linked_List
 from checks import check_matrix # type: ignore
 
 # Prints the adjacency matrix in a readable format.
@@ -27,7 +26,7 @@ def print_matrix(matrix: list[list[int]]) -> None:
 
 # Checks if edge (start, end) exists in the adjacency matrix
 # Returns True if it exists, False otherwise
-def edge_exists(matrix: list[list[int]], start: int, end: int) -> bool:
+def edge_exists_matrix(matrix: list[list[int]], start: int, end: int) -> bool:
     check_matrix(matrix)
 
     if start < 1 or start > len(matrix) or end < 1 or end > len(matrix):
@@ -180,9 +179,9 @@ if __name__ == "__main__" or True:
 
     print("Adjacency Matrix:")
     print_matrix(matrix)
-    print("Edge exists (1, 2):", edge_exists(matrix, 1, 2))
-    print("Edge exists (1, 3):", edge_exists(matrix, 1, 3))
-    print("Edge exists (2, 1):", edge_exists(matrix, 2, 1))
+    print("Edge exists (1, 2):", edge_exists_matrix(matrix, 1, 2))
+    print("Edge exists (1, 3):", edge_exists_matrix(matrix, 1, 3))
+    print("Edge exists (2, 1):", edge_exists_matrix(matrix, 2, 1))
     print("Breath First Search from node 5:")
     print(matrix_BreathFirstSearch(matrix, 5))
     print("Depth First Search from node 5:")
