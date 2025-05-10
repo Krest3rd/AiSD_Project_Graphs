@@ -1,5 +1,5 @@
-from linked_list import Linked_List
-from checks import check_successor_lists # type: ignore
+from lists import Linked_List, EdgeTable
+from checks import check_successor_lists
 
 # Function to take input for successor lists
 # and convert them into linked lists
@@ -46,19 +46,20 @@ def succesor_lists_to_adj_matrix(succesor_lists: list[Linked_List]) -> list[list
     return adj_matrix
 
 
-def successor_list_to_edge_table(succesor_lists: list[Linked_List]) -> list[tuple[int,int]]:
+def successor_list_to_edge_table(succesor_lists: list[Linked_List]) -> EdgeTable:
     # Check if the successor lists are valid
     check_successor_lists(succesor_lists)
     
     # Fill the table
-    edge_table = []
+    table = EdgeTable()
+    table.nodes = len(succesor_lists)
     for i in succesor_lists:
         current = i.head.next
         while current is not None:
             if current.data != 0:
-                edge_table.append((i.head.data, current.data))
+                table.add_edge(i.head.data, current.data)
             current = current.next
-    return edge_table
+    return table
 
 
 # Example usage:
@@ -74,6 +75,6 @@ if __name__ == "__main__":
 
     edge_table = successor_list_to_edge_table(succesor_lists)
     print("Edge Table:")
-    for edge in edge_table:
+    for edge in edge_table.edges:
         print(edge)
 

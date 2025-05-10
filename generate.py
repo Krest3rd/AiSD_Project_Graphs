@@ -1,6 +1,6 @@
 from random import randint
-from linked_list import Linked_List
-from checks import check_matrix # type: ignore
+from lists import Linked_List, EdgeTable
+from checks import check_matrix
 
 # This function generates a random adjacency matrix of size n x n with a given saturation percentage.
 # The saturation percentage determines how many of the possible edges in the upper triangle of the matrix are filled with 1s.
@@ -37,18 +37,19 @@ def generate_adj_matrix(n: int, saturation: int) -> list[list[int]]:
 
 # This function converts a adjecency matrix into an edge table.
 # The edge table is a list of tuples, where each tuple (i,j) represents a directed edge from node i to node j.
-def matrix_to_edge_table(matrix: list[list]) -> list[tuple[int,int]]:
+def matrix_to_edge_table(matrix: list[list]) -> EdgeTable:
     # Check if the matrix is valid
     check_matrix(matrix)
 
     n = len(matrix)
 
     # Fill the table
-    table = []
+    table = EdgeTable()
+    table.nodes = n
     for row in range(n):
-        for col in range(row,n):
+        for col in range(n):
             if matrix[row][col] == 1:
-                table.append((row+1,col+1))
+                table.add_edge(row+1,col+1)
     return table
 
 
@@ -83,7 +84,7 @@ if __name__ == "__main__":
     for row in matrix:
         print(row)
     table = matrix_to_edge_table(matrix)
-    for i in table:
+    for i in table.edges:
         print(i)
     succesor_lists = matrix_to_succesor_lists(matrix)
     for i in succesor_lists:

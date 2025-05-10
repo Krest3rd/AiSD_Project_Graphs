@@ -1,3 +1,4 @@
+# Simple implementation of a singly linked list in Python
 class Linked_List:
     class Node:
         def __init__(self, data):
@@ -18,31 +19,6 @@ class Linked_List:
             last_node = last_node.next
 
         last_node.next = new_node
-
-    # def InsertAtBeginning(self, data):
-    #     new_node = self.Node(data)
-    #     new_node.next = self.head
-    #     self.head = new_node
-
-    # def InsertAtPosition(self, data, position):
-    #     if position < 0:
-    #         raise ValueError("Position must be a non-negative integer.")
-        
-    #     new_node = self.Node(data)
-    #     if position == 0:
-    #         new_node.next = self.head
-    #         self.head = new_node
-    #         return
-        
-    #     current_node = self.head
-    #     for _ in range(position - 1):
-    #         if current_node is None:
-    #             raise IndexError("Position out of bounds.")
-    #         current_node = current_node.next
-        
-    #     new_node.next = current_node.next
-    #     current_node.next = new_node
-
 
     # Find a node with the given data
     def Find(self, data):
@@ -72,4 +48,15 @@ class Linked_List:
         return count
 
 
-        
+class EdgeTable:
+    def __init__(self):
+        self.nodes = 0
+        self.edges = []
+
+    def add_edge(self, start: int, end: int):
+        if start < 1 or start > self.nodes or end < 1 or end > self.nodes:
+            raise ValueError("Node values must be between 1 and the number of nodes.")
+        self.edges.append((start, end))
+
+    def __len__(self):
+        return len(self.table)
