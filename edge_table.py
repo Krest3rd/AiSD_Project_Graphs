@@ -95,6 +95,36 @@ def table_Kahn_topological_sort(edge_table: EdgeTable) -> list[int]:
     return result
         
 
+def table_Trajan_topological_sort(edge_table: EdgeTable) -> list[int]:
+    # 0 - not visited, 1 - visited, 2 - finished
+    visited = [0] * edge_table.nodes
+    result = []
+    stack = []
+
+    while not all(i == 2 for i in visited):
+        
+        for i,j in enumerate(visited):
+            if j == 0:
+                stack.append(i)
+                visited[i] = 1
+                break
+
+        while stack:
+            for i in edge_table.edges:
+                if i[0] == stack[-1]+1: 
+                    if visited[i[1]-1] == 1:
+                        raise ValueError("Graph has cycles, topological sort not possible.")
+                    if visited[i[1]-1] == 0:
+                        stack.append(i[1]-1)
+                        visited[i[1]-1] = 1
+            else:
+                current = stack.pop()
+                visited[current] = 2
+                result.insert(0,current+1)
+    
+    return result
+
+
 if __name__ == "__main__":
     # Example usage
     # Create an edge table
@@ -106,3 +136,4 @@ if __name__ == "__main__":
     print(table_BreathFirstSearch(edge_table, 5))
     print(table_DepthFirstSearch(edge_table, 5))
     print(table_Kahn_topological_sort(edge_table))
+    print(table_Trajan_topological_sort(edge_table))
