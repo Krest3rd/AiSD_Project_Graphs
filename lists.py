@@ -31,6 +31,9 @@ class Linked_List:
     
     # Display the linked list
     def display(self):
+        if  len(self) == 1:
+            print(self.head.data,"->None",sep="")
+            return
         if not self.head:
             return
         current_node = self.head

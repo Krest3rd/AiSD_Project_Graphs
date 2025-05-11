@@ -1,4 +1,4 @@
-from checks import check_matrix # type: ignore
+from checks import check_matrix
 
 # Prints the adjacency matrix in a readable format.
 def print_matrix(matrix: list[list[int]]) -> None:
@@ -101,7 +101,6 @@ def matrix_Kahn_topological_sort(matrix: list[list[int]]) -> list[int]:
                 degrees[j] += 1
 
     # Create a queue of nodes with no incoming edges
-    print(degrees)
     queue = []
     for i in range(len(degrees)):
         if degrees[i] == 0:

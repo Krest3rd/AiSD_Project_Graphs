@@ -63,15 +63,15 @@ def matrix_to_succesor_lists(matrix: list[list]) -> list[Linked_List]:
     n = len(matrix)
     list = []
     for i in range(n):
-        flag = False
+        # flag = False
         linked_list = Linked_List()
         linked_list.InsertAtEnd(i+1)
         for j in range(n):
             if matrix[i][j] == 1:
                 linked_list.InsertAtEnd(j+1)
-                flag = True
-        if not flag:
-            linked_list.InsertAtEnd(0)
+        #         flag = True
+        # if not flag:
+        #     linked_list.InsertAtEnd(0)
         list.append(linked_list)
     return list
 

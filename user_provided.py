@@ -14,8 +14,8 @@ def input_to_successor_list(size: int) -> list[Linked_List]:
         successors = [int(i) for i in input().strip().split()]
         successors.sort()
 
-        if len(successors) == 0:
-            successors.append(0)
+        # if len(successors) == 0:
+        #     successors.append(0)
 
         linked_list = Linked_List()
         linked_list.InsertAtEnd(i)

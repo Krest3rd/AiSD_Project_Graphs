@@ -133,13 +133,16 @@ def list_Trajan_topological_sort(succesor_lists: list[Linked_List]) -> list[int]
 
 
 if __name__ == "__main__":
-    succesor_lists = []
+    succesor_lists = [Linked_List() for _ in range(5)]
     for i in range(5):
-        linked_list = Linked_List()
-        linked_list.InsertAtEnd(i+1)
-        for j in range(i+1, 5):
-            linked_list.InsertAtEnd(j+1)
-        succesor_lists.append(linked_list)
+        succesor_lists[i].InsertAtEnd(i + 1)
+    
+    succesor_lists[0].InsertAtEnd(2)
+    succesor_lists[2].InsertAtEnd(1)
+    succesor_lists[2].InsertAtEnd(4)
+    succesor_lists[4].InsertAtEnd(1)
+    succesor_lists[4].InsertAtEnd(4)
+
     succesor_lists_print(succesor_lists)
     print(list_BreathFirstSearch(succesor_lists, 1))
     print(list_DepthFirstSearch(succesor_lists, 1))
