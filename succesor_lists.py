@@ -57,11 +57,12 @@ def table_DepthFirstSearch(succesor_lists: list[Linked_List], start: int) -> lis
             if not visited[current.data - 1]:
                 stack.append(current.data)
                 visited[current.data - 1] = True
+                result.append(stack[-1])
                 break
             current = current.next
         else:
             stack.pop()
-            result.append(stack[-1])
+
     
     return result
 
@@ -109,3 +110,4 @@ if __name__ == "__main__":
     succesor_lists_print(succesor_lists)
     print(table_BreathFirstSearch(succesor_lists, 1))
     print(table_DepthFirstSearch(succesor_lists, 1))
+    print(table_Kahn_topological_sort(succesor_lists))
