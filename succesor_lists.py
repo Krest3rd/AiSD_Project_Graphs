@@ -17,7 +17,7 @@ def edge_exists_list(succesor_lists: list[Linked_List], start: int, end: int) ->
     return succesor_lists[start - 1].Find(end)
 
 
-def table_BreathFirstSearch(succesor_lists: list[Linked_List], start: int) -> list[int]:
+def list_BreathFirstSearch(succesor_lists: list[Linked_List], start: int) -> list[int]:
     check_successor_lists(succesor_lists)
 
     if start < 1 or start > len(succesor_lists):
@@ -40,7 +40,7 @@ def table_BreathFirstSearch(succesor_lists: list[Linked_List], start: int) -> li
     return result
 
 
-def table_DepthFirstSearch(succesor_lists: list[Linked_List], start: int) -> list[int]:
+def list_DepthFirstSearch(succesor_lists: list[Linked_List], start: int) -> list[int]:
     check_successor_lists(succesor_lists)
 
     if start < 1 or start > len(succesor_lists):
@@ -67,7 +67,7 @@ def table_DepthFirstSearch(succesor_lists: list[Linked_List], start: int) -> lis
     return result
 
 
-def table_Kahn_topological_sort(succesor_lists: list[Linked_List]) -> list[int]:
+def list_Kahn_topological_sort(succesor_lists: list[Linked_List]) -> list[int]:
     check_successor_lists(succesor_lists)
 
     in_degree = [0] * len(succesor_lists)
@@ -99,6 +99,39 @@ def table_Kahn_topological_sort(succesor_lists: list[Linked_List]) -> list[int]:
     return result
 
 
+def list_Trajan_topological_sort(succesor_lists: list[Linked_List]) -> list[int]:
+    check_successor_lists(succesor_lists)
+
+    # 0 - unvisited, 1 - visited, 2 - finished
+    visited = [0] * len(succesor_lists)
+    result = []
+    stack = []
+
+    while not all(visited):
+        for i in range(len(visited)):
+            if visited[i] == 0:
+                stack.append(i)
+                visited[i] = 1
+                break
+
+        while stack:
+            current = succesor_lists[stack[-1]].head.next
+            while current is not None:
+                if visited[current.data - 1] == 1:
+                    raise ValueError("Graph has cycles, topological sort not possible.")
+                if visited[current.data - 1] == 0:
+                    stack.append(current.data - 1)
+                    visited[current.data - 1] = 1
+                    break
+                current = current.next
+            else:
+                current = stack.pop()
+                visited[current] = 2
+                result.insert(0,current + 1)
+
+    return result
+
+
 if __name__ == "__main__":
     succesor_lists = []
     for i in range(5):
@@ -108,6 +141,7 @@ if __name__ == "__main__":
             linked_list.InsertAtEnd(j+1)
         succesor_lists.append(linked_list)
     succesor_lists_print(succesor_lists)
-    print(table_BreathFirstSearch(succesor_lists, 1))
-    print(table_DepthFirstSearch(succesor_lists, 1))
-    print(table_Kahn_topological_sort(succesor_lists))
+    print(list_BreathFirstSearch(succesor_lists, 1))
+    print(list_DepthFirstSearch(succesor_lists, 1))
+    print(list_Kahn_topological_sort(succesor_lists))
+    print(list_Trajan_topological_sort(succesor_lists))
