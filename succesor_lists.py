@@ -65,6 +65,39 @@ def table_DepthFirstSearch(succesor_lists: list[Linked_List], start: int) -> lis
     
     return result
 
+
+def table_Kahn_topological_sort(succesor_lists: list[Linked_List]) -> list[int]:
+    check_successor_lists(succesor_lists)
+
+    in_degree = [0] * len(succesor_lists)
+    for i in succesor_lists:
+        current = i.head.next
+        while current is not None:
+            in_degree[current.data - 1] += 1
+            current = current.next
+
+    queue = []
+    for i in range(len(in_degree)):
+        if in_degree[i] == 0:
+            queue.append(i + 1)
+
+    result = []
+    while queue:
+        node = queue.pop(0)
+        result.append(node)
+        current = succesor_lists[node - 1].head.next
+        while current is not None:
+            in_degree[current.data - 1] -= 1
+            if in_degree[current.data - 1] == 0:
+                queue.append(current.data)
+            current = current.next
+    
+    if len(result) != len(succesor_lists):
+        raise ValueError("Graph has cycles, topological sort not possible.")
+    
+    return result
+
+
 if __name__ == "__main__":
     succesor_lists = []
     for i in range(5):
