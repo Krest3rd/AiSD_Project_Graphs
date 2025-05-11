@@ -14,6 +14,8 @@ def edge_table_print(edge_table: EdgeTable) -> None:
         print(f"{edge[0]}\t{edge[1]}")
 
 
+# Checks if the edge exists in the edge table.
+# Returns True if the edge exists, False otherwise.
 def edge_exists_table(edge_table: EdgeTable, start: int, end: int) -> bool:
     # Check if the edge table is valid
     # check_edge_table(edge_table)
@@ -21,6 +23,7 @@ def edge_exists_table(edge_table: EdgeTable, start: int, end: int) -> bool:
     return (start, end) in edge_table.edges
 
 
+# Returns list of nodes reachable from the start node using BFS.
 def table_BreathFirstSearch(edge_table: EdgeTable, start:int) -> list[int]:
     # Check if the edge table is valid
     # check_edge_table(edge_table)
@@ -40,7 +43,7 @@ def table_BreathFirstSearch(edge_table: EdgeTable, start:int) -> list[int]:
         current += 1
     return result
 
-
+# Returns list of nodes reachable from the start node using DFS.
 def table_DepthFirstSearch(edge_table: EdgeTable, start:int) -> list[int]:
     # Check if the edge table is valid
     # check_edge_table(edge_table)
@@ -63,7 +66,8 @@ def table_DepthFirstSearch(edge_table: EdgeTable, start:int) -> list[int]:
 
     return result
 
-
+# Sorts the nodes in topological order using Kahn's algorithm.
+# Returns a list of nodes in topological order.
 def table_Kahn_topological_sort(edge_table: EdgeTable) -> list[int]:
     # Check if the edge table is valid
     # check_edge_table(edge_table)
@@ -94,7 +98,8 @@ def table_Kahn_topological_sort(edge_table: EdgeTable) -> list[int]:
 
     return result
         
-
+# Sorts the nodes in topological order using Tarjan's algorithm.
+# Returns a list of nodes in topological order.
 def table_Trajan_topological_sort(edge_table: EdgeTable) -> list[int]:
     # 0 - not visited, 1 - visited, 2 - finished
     visited = [0] * edge_table.nodes
