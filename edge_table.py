@@ -1,5 +1,6 @@
 # from checks import check_edge_table
 from lists import EdgeTable
+from help import calculate_circle_positions
 
 # Prints the edge table in a readable format.
 def edge_table_print(edge_table: EdgeTable) -> None:
@@ -19,6 +20,9 @@ def edge_table_print(edge_table: EdgeTable) -> None:
 def edge_exists_table(edge_table: EdgeTable, start: int, end: int) -> bool:
     # Check if the edge table is valid
     # check_edge_table(edge_table)
+    if start < 0 or start > edge_table.nodes or end < 1 or end > edge_table.nodes:
+        raise ValueError("Node values must be between 1 and the number of nodes.")
+    
 
     return (start, end) in edge_table.edges
 
@@ -98,9 +102,21 @@ def table_Kahn_topological_sort(edge_table: EdgeTable) -> list[int]:
 
     return result
         
+def table_export(edge_table: EdgeTable) -> None:
+    positions = calculate_circle_positions(edge_table.nodes)
+    result = "\\begin{scope}[every node/.style={circle,thick,draw}]\n"
+    for i in range(edge_table.nodes):
+        result += f"\t\\node at ({positions[i][0]},{positions[i][1]}) {{{i+1}}};\n"
+    result += "\\end{scope}\n\n"
+    result += "\\begin{scope}[every edge/.style={thick}]\n"
+    for i in edge_table.edges:
+        result += f"\t\\path [->] ({i[0]}) edge ({i[1]});\n"
+    result += "\\end{scope}\n"
+    print(result)
+
 # Sorts the nodes in topological order using Tarjan's algorithm.
 # Returns a list of nodes in topological order.
-def table_Trajan_topological_sort(edge_table: EdgeTable) -> list[int]:
+def table_Tarjan_topological_sort(edge_table: EdgeTable) -> list[int]:
     # 0 - not visited, 1 - visited, 2 - finished
     visited = [0] * edge_table.nodes
     result = []
@@ -141,4 +157,5 @@ if __name__ == "__main__":
     print(table_BreathFirstSearch(edge_table, 5))
     print(table_DepthFirstSearch(edge_table, 5))
     print(table_Kahn_topological_sort(edge_table))
-    print(table_Trajan_topological_sort(edge_table))
+    print(table_Tarjan_topological_sort(edge_table))
+    table_export(edge_table)

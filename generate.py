@@ -1,6 +1,6 @@
 from random import randint
 from lists import Linked_List, EdgeTable
-from checks import check_matrix
+from help import check_matrix
 
 # This function generates a random adjacency matrix of size n x n with a given saturation percentage.
 # The saturation percentage determines how many of the possible edges in the upper triangle of the matrix are filled with 1s.

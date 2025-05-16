@@ -1,4 +1,5 @@
 from lists import Linked_List
+import math
 
 def check_matrix(matrix: list[list]) -> bool:
     # Check if matrix is list of lists
@@ -22,9 +23,9 @@ def check_matrix(matrix: list[list]) -> bool:
     #             raise ValueError("Matrix is not symmetric")
             
     # Check if the diagonal is 0 (no self loops)
-    for i in range(n):
-        if matrix[i][i] != 0:
-            raise ValueError("Matrix has self loops")
+    # for i in range(n):
+    #     if matrix[i][i] != 0:
+    #         raise ValueError("Matrix has self loops")
     
     return True
 
@@ -49,3 +50,15 @@ def check_successor_lists(succesor_lists: list[Linked_List]) -> bool:
             if current.data < 0 or current.data > len(succesor_lists):
                 raise ValueError("Successor list contains invalid node.")
             current = current.next
+
+
+def calculate_circle_positions(n: int, radius: int = 1) -> list[tuple[float, float]]:
+    """Calculate positions of n points evenly spread around a circle."""
+    positions = [
+        (
+            math.cos(2 * math.pi * i / n),
+            math.sin(2 * math.pi * i / n)
+        )
+        for i in range(n)
+    ]
+    return positions

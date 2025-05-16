@@ -1,5 +1,5 @@
 from lists import Linked_List, EdgeTable
-from checks import check_successor_lists
+from help import check_successor_lists
 
 # Function to take input for successor lists
 # and convert them into linked lists
@@ -10,9 +10,19 @@ def input_to_successor_list(size: int) -> list[Linked_List]:
     list = []
 
     for i in range(1,size+1):
-        print(f"\t{i}> ", end='', flush=True)
-        successors = [int(i) for i in input().strip().split()]
-        successors.sort()
+        while True:
+            print(f"\t{i}> ", end='', flush=True)
+            successors = [int(i) for i in input().strip().split()]
+
+            # Remove duplicates
+            successors = [i for i in set(successors)]
+            successors.sort()
+
+            if not all(i<size+1 and i>0 for i in successors):
+                print("Successor values must be between 1 and the number of nodes.")
+            else:
+                break
+            
 
         # if len(successors) == 0:
         #     successors.append(0)
@@ -41,7 +51,7 @@ def succesor_lists_to_adj_matrix(succesor_lists: list[Linked_List]) -> list[list
         while current is not None:
             if current.data != 0:
                 adj_matrix[i.head.data - 1][current.data - 1] = 1
-                adj_matrix[current.data - 1][i.head.data - 1] = -1
+                # adj_matrix[current.data - 1][i.head.data - 1] = -1
             current = current.next
     return adj_matrix
 

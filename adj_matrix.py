@@ -1,4 +1,4 @@
-from checks import check_matrix
+from help import check_matrix,calculate_circle_positions
 
 # Prints the adjacency matrix in a readable format.
 def print_matrix(matrix: list[list[int]]) -> None:
@@ -124,6 +124,25 @@ def matrix_Kahn_topological_sort(matrix: list[list[int]]) -> list[int]:
     
     return result
 
+def matrix_export(matrix: list[list[int]]) -> None:
+    check_matrix(matrix)
+    positions = calculate_circle_positions(len(matrix))
+    result = "\\begin{scope}[every node/.style={circle,thick,draw}]\n"
+    for i in range(len(matrix)):
+        result += f"\t\\node at ({positions[i][0]},{positions[i][1]}) {{{i+1}}};\n"
+    result += "\\end{scope}\n\n"
+    result += "\\begin{scope}[every edge/.style={thick}]\n"
+    for i in range(len(matrix)):
+        for j in range(len(matrix)):
+            if matrix[i][j] == 1:
+                result += f"\t\\path [->] ({i+1}) edge ({j+1});\n"
+    result += "\\end{scope}\n"
+    print(result)
+    # for i in range(len(matrix)):
+    #     for j in range(len(matrix)):
+    #         result += str(matrix[i][j])
+    #     result += "\n"
+    
 
 # This function implements Tarjan's algorithm for topological sorting of a directed acyclic graph (DAG).
 # It uses a depth-first search approach to find the topological order.
@@ -132,7 +151,7 @@ def matrix_Kahn_topological_sort(matrix: list[list[int]]) -> list[int]:
 # The function uses a stack to keep track of the current path and a visited list to mark nodes as visited.
 # It also maintains a result list to store the topological order.
 # The function continues until all nodes are visited, and it handles cycles by checking the visited status of nodes.
-def matrix_Trajan_topological_sort(matrix: list[list[int]]) -> list[int]:
+def matrix_Tarjan_topological_sort(matrix: list[list[int]]) -> list[int]:
     check_matrix(matrix)
 
     # 0 = unvisited, 1 = visiting, 2 = visited
@@ -168,7 +187,7 @@ def matrix_Trajan_topological_sort(matrix: list[list[int]]) -> list[int]:
 
 
 # Example usage:
-if __name__ == "__main__" or True:
+if __name__ == "__main__":
 
     matrix = [[0, 1, 0, 0, 0],
              [0, 0, 0, 0, 0],
@@ -188,7 +207,8 @@ if __name__ == "__main__" or True:
     print("Topological Sort using Kahn's algorithm:")
     print(matrix_Kahn_topological_sort(matrix))
     print("Topological Sort using Tarjan's algorithm:")
-    print(matrix_Trajan_topological_sort(matrix))
+    print(matrix_Tarjan_topological_sort(matrix))
+    matrix_export(matrix)
     
 
 

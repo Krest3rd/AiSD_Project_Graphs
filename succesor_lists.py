@@ -1,5 +1,5 @@
 from lists import Linked_List
-from checks import check_successor_lists
+from help import check_successor_lists, calculate_circle_positions
 
 def succesor_lists_print(succesor_lists: list[Linked_List]) -> None:
     check_successor_lists(succesor_lists)
@@ -98,8 +98,23 @@ def list_Kahn_topological_sort(succesor_lists: list[Linked_List]) -> list[int]:
     
     return result
 
+def list_export(succesor_lists: list[Linked_List]) -> None:
+    positions = calculate_circle_positions(len(succesor_lists))
+    result = "\\begin{scope}[every node/.style={circle,thick,draw}]\n"
+    for i in range(len(succesor_lists)):
+        result += f"\t\\node at ({positions[i][0]},{positions[i][1]}) {{{i+1}}};\n"
+    result += "\\end{scope}\n\n"
+    result += "\\begin{scope}[every edge/.style={thick}]\n"
+    for i,j in enumerate(succesor_lists):
+        current = j.head.next
+        while current is not None:
+            result += f"\t\\path [->] ({i+1}) edge ({current.data});\n"
+            current = current.next
+    result += "\\end{scope}\n"
+    print(result)
 
-def list_Trajan_topological_sort(succesor_lists: list[Linked_List]) -> list[int]:
+
+def list_Tarjan_topological_sort(succesor_lists: list[Linked_List]) -> list[int]:
     check_successor_lists(succesor_lists)
 
     # 0 - unvisited, 1 - visited, 2 - finished
@@ -147,4 +162,5 @@ if __name__ == "__main__":
     print(list_BreathFirstSearch(succesor_lists, 1))
     print(list_DepthFirstSearch(succesor_lists, 1))
     print(list_Kahn_topological_sort(succesor_lists))
-    print(list_Trajan_topological_sort(succesor_lists))
+    print(list_Tarjan_topological_sort(succesor_lists))
+    list_export(succesor_lists)
