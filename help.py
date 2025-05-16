@@ -52,6 +52,7 @@ def check_successor_lists(succesor_lists: list[Linked_List]) -> bool:
             current = current.next
 
 
+
 def calculate_circle_positions(n: int, radius: int = 1) -> list[tuple[float, float]]:
     """Calculate positions of n points evenly spread around a circle."""
     positions = [

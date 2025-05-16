@@ -26,6 +26,7 @@ Available actions(case insensitive):
             method.
     Tarjan- Topological sort with Tarjan's
             Alghoritm.
+    Export- Export the graph in into LaTeX format.
 
 ================================================""")
 
@@ -85,30 +86,34 @@ def main():
     try:
         if mode == '--generate':
             print("Generating graph...")
-            try:
-                nodes=int(input("nodes> "))
-                if nodes <=0:
-                    raise ValueError("Node count must be positive.")
-                saturation=(int(input("saturation> ")))
-                if saturation < 0 or saturation > 100:
-                    raise ValueError("Saturation must be between 0 and 100.")         
-                matrix = generate_adj_matrix(nodes, saturation)
-                edge_table = matrix_to_edge_table(matrix)
-                successor_lists = matrix_to_succesor_lists(matrix)
-            except ValueError as e:
-                print(f"Invalid input: {e}")
-                help_tip('nodes')
-                sys.exit(1)  
+            while True:
+                try:
+                    nodes=int(input("nodes> "))
+                    if nodes <=0:
+                        raise ValueError("Node count must be positive.")
+                    saturation=(int(input("saturation> ")))
+                    if saturation < 0 or saturation > 100:
+                        raise ValueError("Saturation must be between 0 and 100.")         
+                    matrix = generate_adj_matrix(nodes, saturation)
+                    edge_table = matrix_to_edge_table(matrix)
+                    successor_lists = matrix_to_succesor_lists(matrix)
+                    break
+                except ValueError as e:
+                    print(f"Invalid input: {e}")
+                    help_tip('nodes')
+                    continue  
         else:
             print("Enter graph data manually...")
-            try:
-                nodes = int(input("nodes> "))
-                if nodes <= 0:
-                    raise ValueError("Node count must be positive")
-            except ValueError as e:
-                print(f"Invalid input:{e}")
-                help_tip('nodes')
-                sys.exit(1)  
+            while True:
+                try:
+                    nodes = int(input("nodes> "))
+                    if nodes <= 0:
+                        raise ValueError("Node count must be positive")
+                    break
+                except ValueError as e:
+                    print(f"Invalid input:{e}")
+                    help_tip('nodes')
+                    continue 
             
             print("Enter successors for each node (space-separated):")
             try:

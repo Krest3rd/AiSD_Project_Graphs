@@ -21,7 +21,8 @@ def edge_exists_table(edge_table: EdgeTable, start: int, end: int) -> bool:
     # Check if the edge table is valid
     # check_edge_table(edge_table)
     if start < 0 or start > edge_table.nodes or end < 1 or end > edge_table.nodes:
-        raise ValueError("Node values must be between 1 and the number of nodes.")
+        print("Node values must be between 1 and the number of nodes.")
+        return False
     
 
     return (start, end) in edge_table.edges
@@ -98,7 +99,8 @@ def table_Kahn_topological_sort(edge_table: EdgeTable) -> list[int]:
                     queue.append(edge[1])
 
     if len(result) != edge_table.nodes:
-        raise ValueError("Graph has cycles, topological sort not possible.")
+        print("Graph has cycles, topological sort not possible.")
+        return []
 
     return result
         
@@ -134,7 +136,8 @@ def table_Tarjan_topological_sort(edge_table: EdgeTable) -> list[int]:
             for i in edge_table.edges:
                 if i[0] == stack[-1]+1: 
                     if visited[i[1]-1] == 1:
-                        raise ValueError("Graph has cycles, topological sort not possible.")
+                        print("Graph has cycles, topological sort not possible.")
+                        return []
                     if visited[i[1]-1] == 0:
                         stack.append(i[1]-1)
                         visited[i[1]-1] = 1

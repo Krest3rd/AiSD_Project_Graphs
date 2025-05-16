@@ -12,7 +12,8 @@ def edge_exists_list(succesor_lists: list[Linked_List], start: int, end: int) ->
     check_successor_lists(succesor_lists)
 
     if start < 1 or start > len(succesor_lists) or end < 1 or end > len(succesor_lists):
-        raise ValueError("Node values must be between 1 and the number of nodes.")
+        print("Start and end nodes must be between 1 and the size of the list.")
+        return False
 
     return succesor_lists[start - 1].Find(end)
 
@@ -21,7 +22,8 @@ def list_BreathFirstSearch(succesor_lists: list[Linked_List], start: int) -> lis
     check_successor_lists(succesor_lists)
 
     if start < 1 or start > len(succesor_lists):
-        raise ValueError("Start value must be between 1 and the number of nodes")
+        print("Start value must be between 1 and the number of nodes")
+        return []
     
     result = [start]
     visited = [False] * len(succesor_lists)
@@ -44,7 +46,8 @@ def list_DepthFirstSearch(succesor_lists: list[Linked_List], start: int) -> list
     check_successor_lists(succesor_lists)
 
     if start < 1 or start > len(succesor_lists):
-        raise ValueError("Start value must be between 1 and the number of nodes")
+        print("Start value must be between 1 and the number of nodes")
+        return []
     
     stack = [start]
     visited = [False] * len(succesor_lists)
@@ -94,7 +97,8 @@ def list_Kahn_topological_sort(succesor_lists: list[Linked_List]) -> list[int]:
             current = current.next
     
     if len(result) != len(succesor_lists):
-        raise ValueError("Graph has cycles, topological sort not possible.")
+        print("Graph has cycles, topological sort not possible.")
+        return []
     
     return result
 
@@ -133,7 +137,8 @@ def list_Tarjan_topological_sort(succesor_lists: list[Linked_List]) -> list[int]
             current = succesor_lists[stack[-1]].head.next
             while current is not None:
                 if visited[current.data - 1] == 1:
-                    raise ValueError("Graph has cycles, topological sort not possible.")
+                    print("Graph has cycles, topological sort not possible.")
+                    return []
                 if visited[current.data - 1] == 0:
                     stack.append(current.data - 1)
                     visited[current.data - 1] = 1

@@ -30,7 +30,8 @@ def edge_exists_matrix(matrix: list[list[int]], start: int, end: int) -> bool:
     check_matrix(matrix)
 
     if start < 1 or start > len(matrix) or end < 1 or end > len(matrix):
-        raise ValueError("Start and end nodes must be between 1 and the size of the matrix.")
+        print("Start and end nodes must be between 1 and the size of the matrix.")
+        return False
     
     if matrix[start-1][end-1] == 1:
         return True
@@ -120,7 +121,8 @@ def matrix_Kahn_topological_sort(matrix: list[list[int]]) -> list[int]:
                     queue.append(i+1)
     
     if len(result) != len(matrix):
-        raise ValueError("Graph has cycles, topological sort not possible.")
+        print("Graph has cycles, topological sort not possible.")
+        return[]
     
     return result
 
@@ -138,10 +140,6 @@ def matrix_export(matrix: list[list[int]]) -> None:
                 result += f"\t\\path [->] ({i+1}) edge ({j+1});\n"
     result += "\\end{scope}\n"
     print(result)
-    # for i in range(len(matrix)):
-    #     for j in range(len(matrix)):
-    #         result += str(matrix[i][j])
-    #     result += "\n"
     
 
 # This function implements Tarjan's algorithm for topological sorting of a directed acyclic graph (DAG).
@@ -174,7 +172,8 @@ def matrix_Tarjan_topological_sort(matrix: list[list[int]]) -> list[int]:
             for i,j in enumerate(matrix[stack[-1]]):
                 if j == 1:
                     if visited[i] == 1:
-                        raise ValueError("Graph has cycles, topological sort not possible.")
+                        print("Graph has cycles, topological sort not possible.")
+                        return []
                     if visited[i] == 0:
                         stack.append(i)
                         visited[i] = 1

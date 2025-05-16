@@ -12,7 +12,11 @@ def input_to_successor_list(size: int) -> list[Linked_List]:
     for i in range(1,size+1):
         while True:
             print(f"\t{i}> ", end='', flush=True)
-            successors = [int(i) for i in input().strip().split()]
+            try:
+                successors = [int(i) for i in input().strip().split()]
+            except ValueError:
+                print("Invalid input. Please enter integers only.")
+                continue
 
             # Remove duplicates
             successors = [i for i in set(successors)]
